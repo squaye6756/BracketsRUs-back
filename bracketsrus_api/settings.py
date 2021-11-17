@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'bcrypt',
     'rest_framework',
     'corsheaders',
+    'tournaments_api',
     'user_api',
     'django.contrib.admin',
     'django.contrib.auth',

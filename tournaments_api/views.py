@@ -1,7 +1,10 @@
 # Create your views here.
 from rest_framework import generics
 from .serializers import TournamentSerializer
+from .serializers import BracketSerializer
 from .models import Tournament
+from .models import Bracket
+import random
 
 from django.http import JsonResponse
 import json
@@ -14,6 +17,14 @@ class TournamentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tournament.objects.all().order_by('id')
     serializer_class = TournamentSerializer
 
+class BracketList(generics.ListCreateAPIView):
+    queryset = Bracket.objects.all().order_by('id')
+    serializer_class = BracketSerializer
+
+class BracketDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Bracket.objects.all().order_by('id')
+    serializer_class = BracketSerializer
+
 def join_tourney(request):
     if request.method=='PUT':
         jsonRequest = json.loads(request.body)
@@ -25,3 +36,17 @@ def join_tourney(request):
         else:
             tournament.players.add(userId)
             return JsonResponse({"added": True})
+
+def create_next_round(request):
+    if request.method=='PUT':
+        jsonRequest = json.loads(request.body)
+        userIds = jsonRequest['userIds']
+        list = random.sample(userIds, len(userIds))
+        tournamentId = jsonRequest['tournamentId']
+        tournament = Tournament.objects.get(id=tournamentId)
+        round = jsonRequest['round']
+        list = random.sample(userIds, len(userIds))
+        bracket = Bracket(tournament=tournament, round=round)
+        bracket.save()
+        bracket.list.set(list)
+        return JsonResponse({"id": bracket.id, "tournament": tournamentId, "round": round, "list": list})

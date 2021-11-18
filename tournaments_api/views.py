@@ -48,5 +48,6 @@ def create_next_round(request):
         list = random.sample(userIds, len(userIds))
         bracket = Bracket(tournament=tournament, round=round)
         bracket.save()
-        bracket.list.set(list)
+        for id in list:
+            bracket.list.add(id)
         return JsonResponse({"id": bracket.id, "tournament": tournamentId, "round": round, "list": list})

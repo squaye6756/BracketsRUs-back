@@ -14,19 +14,19 @@ import json
 from json import JSONEncoder
 
 class TournamentList(generics.ListCreateAPIView):
-    queryset = Tournament.objects.all() # tell django how to retrieve all objects from the DB, order by id ascending
+    queryset = Tournament.objects.all().order_by('id') # tell django how to retrieve all objects from the DB, order by id ascending
     serializer_class = TournamentSerializer # tell django what serializer to use
 
 class TournamentDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Tournament.objects.all()
+    queryset = Tournament.objects.all().order_by('id')
     serializer_class = TournamentSerializer
 
 class BracketList(generics.ListCreateAPIView):
-    queryset = Bracket.objects.all()
+    queryset = Bracket.objects.all().order_by('id')
     serializer_class = BracketSerializer
 
 class BracketDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Bracket.objects.all()
+    queryset = Bracket.objects.all().order_by('id')
     serializer_class = BracketSerializer
 
 def join_tourney(request):

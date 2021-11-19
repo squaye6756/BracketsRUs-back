@@ -41,7 +41,6 @@ def create_next_round(request):
     if request.method=='PUT':
         jsonRequest = json.loads(request.body)
         userIds = jsonRequest['userIds']
-        list = random.sample(userIds, len(userIds))
         tournamentId = jsonRequest['tournamentId']
         tournament = Tournament.objects.get(id=tournamentId)
         round = jsonRequest['round']

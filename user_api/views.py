@@ -13,11 +13,11 @@ from django.http import JsonResponse
 import json
 
 class UserList(generics.ListCreateAPIView):
-    queryset = User.objects.all().order_by('id')
+    queryset = User.objects.all()
     serializer_class = UserSerializer
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all().order_by('id')
+    queryset = User.objects.all()
     serializer_class = UserSerializer
 
 ### THIS IS THE FUNCTION THAT PERFORMS AUTH

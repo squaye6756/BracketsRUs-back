@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 import sys
 sys.path.append("..")
@@ -18,4 +19,4 @@ class Tournament(models.Model):
 class Bracket(models.Model):
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)
     round = models.IntegerField()
-    list = models.ManyToManyField(User, blank=True)
+    list = ArrayField(models.IntegerField(), blank=True, default=list)

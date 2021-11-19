@@ -4,25 +4,29 @@ from .serializers import TournamentSerializer
 from .serializers import BracketSerializer
 from .models import Tournament
 from .models import Bracket
+import sys
+sys.path.append("..")
+from user_api.models import User
 import random
 
 from django.http import JsonResponse
 import json
+from json import JSONEncoder
 
 class TournamentList(generics.ListCreateAPIView):
-    queryset = Tournament.objects.all().order_by('id') # tell django how to retrieve all objects from the DB, order by id ascending
+    queryset = Tournament.objects.all() # tell django how to retrieve all objects from the DB, order by id ascending
     serializer_class = TournamentSerializer # tell django what serializer to use
 
 class TournamentDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Tournament.objects.all().order_by('id')
+    queryset = Tournament.objects.all()
     serializer_class = TournamentSerializer
 
 class BracketList(generics.ListCreateAPIView):
-    queryset = Bracket.objects.all().order_by('id')
+    queryset = Bracket.objects.all()
     serializer_class = BracketSerializer
 
 class BracketDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Bracket.objects.all().order_by('id')
+    queryset = Bracket.objects.all()
     serializer_class = BracketSerializer
 
 def join_tourney(request):
@@ -45,8 +49,6 @@ def create_next_round(request):
         tournament = Tournament.objects.get(id=tournamentId)
         round = jsonRequest['round']
         list = random.sample(userIds, len(userIds))
-        bracket = Bracket(tournament=tournament, round=round)
+        bracket = Bracket(tournament=tournament, round=round, list=list)
         bracket.save()
-        for id in list:
-            bracket.list.add(id)
         return JsonResponse({"id": bracket.id, "tournament": tournamentId, "round": round, "list": list})

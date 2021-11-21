@@ -9,12 +9,11 @@ class Tournament(models.Model):
     game = models.CharField(max_length=32)
     players = models.ManyToManyField(User, blank=True)
     limit = models.IntegerField()
-    complete = models.BooleanField(default=False)
     locked = models.BooleanField(default=False)
     details = models.TextField(blank=True, default='')
     prizes = models.CharField(max_length=100, blank=True, default='None');
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner')
-    champion = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='champion')
+    champion = models.ForeignKey(User, null=True, on_delete=models.PROTECT, related_name='champion')
 
 class Bracket(models.Model):
     tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE)

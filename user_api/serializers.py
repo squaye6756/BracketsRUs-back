@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import User
+# from django.http import JsonResponse
 
 from django.contrib.auth.hashers import make_password, check_password
 
@@ -14,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
         password = make_password(validated_data['password'])
         )
         user.save()
-        return user
+        return {"id": user.id, "username": user.username, "password": ""}
 
     def update(self,instance, validated_data):
         user = User.objects.get(id=instance.id)

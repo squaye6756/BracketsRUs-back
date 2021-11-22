@@ -64,7 +64,7 @@ MIDDLEWARE = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = ['https://brackets-r-us.herokuapp.com']
 
 ROOT_URLCONF = 'bracketsrus_api.urls'
 
